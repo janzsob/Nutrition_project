@@ -1,0 +1,25 @@
+{% extends "ingredient_app/base.html" %}
+{% block title %}Search for Ingredients{% endblock %}
+{% block content %}
+
+<div class="container" style="width: 60%;">
+    <h1>Get Information About Ingredients</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <input type="text" name="product_id" placeholder="Type product id..." class="form-control">
+        <input class="btn btn-info" type="submit">
+    </form>
+    <br>
+    <!-- error message -->
+    {% if messages %}
+        {% for message in messages %}
+        <div class="row justify-content-center">
+            <div class="alert alert-danger col-md-4 text-center mt-1" role="alert">
+                {{ message }}
+            </div>
+        </div>
+        {% endfor %}
+    {% endif %}
+</div> <!-- container end -->
+
+{% endblock content %}

@@ -3,5 +3,6 @@ from . import views
 
 app_name = "ingredient_app"
 urlpatterns = [
-    path("", views.home_view, name="home"),
+    path("", views.search_page_view, name="search_page"),
+    path("results/", views.search_results_view, name="search_results")
 ]
