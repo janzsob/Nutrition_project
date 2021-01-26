@@ -1,32 +1,104 @@
 {% extends "ingredient_app/base.html" %}
 {% block title %}Search Results{% endblock %}
 {% block content %}
+{% load humanize %}
 
-<div class="container" style="width: 60%;">
-    <div class="card">
-        {% for item in items %}
-        <div class="row g-0">
-            <div class="col-md-4">
-                <img src="{{ item.img_url }}" alt="">
-            </div>
-            <div class="col-md-8">
-                <div class="card-body">
-                    <h4 class="card-title">{{ item.product_name }}</h4>
-                    <div class="flex-row">
-                        <span class="text-muted mr-2">amount: {{ item.amount }}</span>
-                        <span class="text-muted">unit: {{ item.unit }}</span>    
-                    </div>
-                    <p class="card-text">Caloric Breakdown  In Percentage</p>
-                    <ul>
-                        <li>Carbs: {{ item.carbs }}%</li>
-                        <li>Fat: {{ item.fat }}%</li>
-                        <li>Protein: {{ item.protein }}%</li>
-                    </ul>
+
+<div class="container-fluid p-0 position-relative"> <!-- It needs for the postiton of back button-->
+    <!--Back Button-->
+    <a href="{% url 'ingredient_app:search_page' %}" id="back_button" class="btn btn-dark text-info border-info position-absolute top-0 start-0 ms-2 ms-sm-4">Back</a>
+    
+    <div class="container mt-2" style="width: 65%;" id="main_container">
+        <div class="card">
+            <div class="row g-0">
+                <div class="col-md-4 text-center"> <!-- image column -->
+                    {% for img in main_info %} <!-- load image -->
+                    <img class="img-fluid" src="{{ img.img_url }}" alt="">
+                    {% endfor %}
                 </div>
-            </div>
-        </div>
-        {% endfor %}
-    </div> <!-- card end -->
+                <div class="col-md-8"> <!-- main stats column -->
+                    <div class="card-body text-center">
+                        {% for info in main_info %}
+                        <div class="d-sm-flex flex-row justify-content-center">
+                            <div class="p-1"><p class="badge bg-success fs-5">{{ info.product_name }}</p></div>
+                            <div class="d-flex align-items-center p-1 justify-content-center"><p class="">{% if info.product_category != False %} ({{ info.product_category }}) {% endif %}</p></div>
+                        </div>
+                        <p class="fst-italic fs-3">{{ info.product_amount|apnumber }} {{info.product_unit}} - {{ info.weight_amount|floatformat:0 }} {{ info.weight_unit }}</p>
+                        <p class="fs-4 fw-bolder fst-italic">{{ calories_data.calories_amount|floatformat:0 }} {{ calories_data.calories_unit }}</p>
+                        {% endfor %}
+
+                        <!-- Carbs, Fat, Protein table -->
+                        {% for info in main_info %}
+                        <table class="table table-bordered fs-6">
+                            <thead class="table-info" id="tb_head">
+                                <tr>
+                                    <th scope="col">Carbs</th>
+                                    <th scope="col">Fat</th>
+                                    <th scope="col">Protein</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{{ info.carbs|floatformat:0 }}%</td>
+                                    <td>{{ info.fat|floatformat:0 }}%</td>
+                                    <td>{{ info.protein|floatformat:0 }}%</td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td>{{ carbs_data.carbs_amount|floatformat:1 }} {{ carbs_data.carbs_unit }}</td>
+                                    <td>{{ fat_data.fat_amount|floatformat:1 }} {{ fat_data.fat_unit }}</td>
+                                    <td>{{ protein_data.protein_amount|floatformat:1 }} {{ protein_data.protein_unit }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        {% endfor %}
+    
+                        <!-- glycemic index -->
+                        <div class="row gx-2 m-2">
+                            {% for glycemic in glycemic_list %}
+                            <div class="col-sm">
+                                <div class="p-0 mx-3 my-2 my-md-0 border bg-light"><small>{{ glycemic.glycemic_name }}: {{ glycemic.glycemic_amount|floatformat:0 }}</small></div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div> <!-- card-body end -->
+                    <p><!-- Collapse Button -->
+                        <a class="btn btn-primary float-end m-2" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                            View All Nutrients
+                        </a>
+                    </p>
+                </div> <!-- main stats column end -->
+            </div> <!-- card row end -->
+        </div> <!-- card end -->
+    
+        <!-- nutrients table -->
+        <div class="collapse" id="collapseExample">
+            <div class="card card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover bg-white mb-0">
+                        <thead>
+                            <tr>
+                                <th scope="col">Nutrient Name</th>
+                                <th scope="col">Amount</th>
+                                <th scope="col">Unit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for nutri in nutrients_list %}
+                            <tr>
+                                <td scope="row">{{ nutri.nutri_name }}</td>
+                                <td>{{ nutri.nutri_amount }}</td>
+                                <td>{{ nutri.nutri_unit }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div> <!-- table-responsive end -->
+            </div> <!-- card-body end -->
+        </div> <!-- collapse end -->
+    
+    </div> <!-- main container end -->
+    
 </div> <!-- container end -->
 
 {% endblock content %}

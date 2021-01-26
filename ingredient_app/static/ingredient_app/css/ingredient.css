@@ -1,3 +1,23 @@
 body{
     background-color: rgb(42, 165, 97);
 }
+
+/* Search results page navbar*/
+#results_navbar {
+    background-color: rgba(23, 100, 110, 0) !important;
+}
+
+/* Back Button */
+#back_button {
+    border: 1.5px solid #5bc0de !important;
+}
+
+#back_button:hover {
+    background-color: #5bc0de;
+    color: black !important;
+}
+
+/* Main statistics table head (Carbs, Protein, Fat) */
+#tb_head {
+    background-color: #927638 !important;
+}

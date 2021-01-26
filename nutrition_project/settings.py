@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'ingredient_app.apps.IngredientAppConfig', # ingredient_app
+    'django.contrib.humanize', # humanize
 ]
 
 MIDDLEWARE = [
