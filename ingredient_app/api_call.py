@@ -34,20 +34,22 @@ print()
 """
 
 """ Ingredient info """
-def ingredient_info(ingredient_id):
+def ingredient_info(ingredient_id, product_unit, product_amount):
     url = f"https://api.spoonacular.com/food/ingredients/{ingredient_id}/information"
     endpoint = f"{url}?apiKey={api_key}"
     response = requests.get(endpoint, params={
-        "amount": 1,
-        "unit": "piece",
+        "amount": product_amount,
+        "unit": product_unit,
     })
+    data = response.json()
+    possible_units = data["possibleUnits"]
     
     if response.status_code == 402: # in case of 402 error (when the number of requests reach the daily maximum limit)
         return "402 error"
+    elif product_unit not in possible_units: # check whether the given unit exists in possible units list.
+        return "unit error"
     else:
         try: # The ideal way
-            data = response.json()
-            
             nutrition = data["nutrition"]
             image = data["image"]
             
@@ -103,7 +105,6 @@ def ingredient_info(ingredient_id):
                 )
 
             # removing main nutrients
-            
             for num in range(len(nutrients_list)):
                 if nutrients_list[num]["nutri_name"] == "Calories":
                     del nutrients_list[num]
@@ -183,7 +184,6 @@ def ingredient_info(ingredient_id):
                         }
                     )
 
-
             # glycemic
             glycemic_list = []
             for glycemic in nutrition["properties"]:
@@ -209,111 +209,11 @@ def ingredient_info(ingredient_id):
 
                 }
             )
-
+            #print(f"Product id: {ingredient_id}")
             return keys_list
 
-        except(KeyError): # in case of KeyError, when the the given product id doesn't exists
+        except(KeyError): # in case of KeyError, when the the given product doesn't exists in the database
             return KeyError
 
 #pprint.pprint(ingredient_info(9037)[0]["calories_name"])
-#pprint.pprint(ingredient_info(9037))
-
-
-
-
-"""
-list = [
-    {'nutri_amount': 52.66, 'nutri_name': 'Carbohydrates', 'nutri_unit': 'g'},
-    {'nutri_amount': 0.55, 'nutri_name': 'Vitamin B1', 'nutri_unit': 'mg'},
-    {'nutri_amount': 29.96, 'nutri_name': 'Net Carbohydrates', 'nutri_unit': 'g'},
-    {'nutri_amount': 889.84, 'nutri_name': 'Vitamin A', 'nutri_unit': 'IU'},
-    {'nutri_amount': 11.62, 'nutri_name': 'Protein', 'nutri_unit': 'g'},
-    {'nutri_amount': 108.96, 'nutri_name': 'Magnesium', 'nutri_unit': 'mg'},
-    {'nutri_amount': 0.15,
-    'nutri_name': 'Poly Unsaturated Fat',
-    'nutri_unit': 'g'},
-    {'nutri_amount': 0.91, 'nutri_name': 'Fat', 'nutri_unit': 'g'},
-    {'nutri_amount': 0.0, 'nutri_name': 'Vitamin B12', 'nutri_unit': '�g'},
-    {'nutri_amount': 332.33, 'nutri_name': 'Vitamin C', 'nutri_unit': 'mg'},
-    {'nutri_amount': 97.16, 'nutri_name': 'Choline', 'nutri_unit': 'mg'},
-    {'nutri_amount': 1543.6, 'nutri_name': 'Potassium', 'nutri_unit': 'mg'},
-    {'nutri_amount': 390.44, 'nutri_name': 'Folate', 'nutri_unit': '�g'},
-    {'nutri_amount': 1.45, 'nutri_name': 'Manganese', 'nutri_unit': 'mg'},
-    {'nutri_amount': 2.12, 'nutri_name': 'Vitamin B3', 'nutri_unit': 'mg'},
-    {'nutri_amount': 690.08, 'nutri_name': 'Vitamin K', 'nutri_unit': '�g'},
-    {'nutri_amount': 0.0, 'nutri_name': 'Vitamin D', 'nutri_unit': '�g'},
-    {'nutri_amount': 1.13, 'nutri_name': 'Vitamin B6', 'nutri_unit': 'mg'},
-    {'nutri_amount': 0.0, 'nutri_name': 'Caffeine', 'nutri_unit': 'mg'},
-    {'nutri_amount': 0.0, 'nutri_name': 'Alcohol', 'nutri_unit': 'g'},
-    {'nutri_amount': 163.44, 'nutri_name': 'Sodium', 'nutri_unit': 'mg'},
-    {'nutri_amount': 363.2, 'nutri_name': 'Calcium', 'nutri_unit': 'mg'},
-    {'nutri_amount': 0.15,
-    'nutri_name': 'Mono Unsaturated Fat',
-    'nutri_unit': 'g'},
-    {'nutri_amount': 22.7, 'nutri_name': 'Fiber', 'nutri_unit': 'g'},
-    {'nutri_amount': 0.17, 'nutri_name': 'Copper', 'nutri_unit': 'mg'},
-    {'nutri_amount': 1.92, 'nutri_name': 'Vitamin B5', 'nutri_unit': 'mg'},
-    {'nutri_amount': 0.0, 'nutri_name': 'Folic Acid', 'nutri_unit': '�g'},
-    {'nutri_amount': 227.0, 'nutri_name': 'Calories', 'nutri_unit': 'kcal'},
-    {'nutri_amount': 0.36, 'nutri_name': 'Vitamin B2', 'nutri_unit': 'mg'},
-    {'nutri_amount': 0.0, 'nutri_name': 'Cholesterol', 'nutri_unit': 'mg'},
-    {'nutri_amount': 0.31, 'nutri_name': 'Saturated Fat', 'nutri_unit': 'g'},
-    {'nutri_amount': 1.63, 'nutri_name': 'Zinc', 'nutri_unit': 'mg'},
-    {'nutri_amount': 2.72, 'nutri_name': 'Selenium', 'nutri_unit': '�g'},
-    {'nutri_amount': 1.36, 'nutri_name': 'Vitamin E', 'nutri_unit': 'mg'},
-    {'nutri_amount': 236.08, 'nutri_name': 'Phosphorus', 'nutri_unit': 'mg'},
-    {'nutri_amount': 9.08, 'nutri_name': 'Fluoride', 'nutri_unit': 'mg'},
-    {'nutri_amount': 4.27, 'nutri_name': 'Iron', 'nutri_unit': 'mg'},
-    {'nutri_amount': 29.06, 'nutri_name': 'Sugar', 'nutri_unit': 'g'}
-]
-
-
-for element in range(len(list)):
-    if list[element]["nutri_name"] == "Calories":
-        del list[element]
-        break
-"""
-
-
-
-"""
-url = f"https://api.spoonacular.com/food/ingredients/{9037}/information"
-endpoint = f"{url}?apiKey={api_key}"
-response = requests.get(endpoint, params={
-    "amount": 1,
-    "unit": "piece",
-})
-
-data = response.json()
-
-main_nutrients = []
-
-for main_nutri in data["nutrition"]["nutrients"]:
-    if main_nutri["name"] == "Calories":
-        calories_name = main_nutri["name"]
-        calories_amount = main_nutri["amount"]
-        calories_unit = main_nutri["unit"]
-
-        main_nutrients.append(
-            {
-            "calories_name": calories_name,
-            "calories_amount": calories_amount,
-            "calories_unit": calories_unit,
-            }
-        )
-
-    if main_nutri["name"] == "Carbohydrates":
-        carbs_name = main_nutri["name"]
-        carbs_amount = main_nutri["amount"]
-        carbs_unit = main_nutri["unit"]
-
-        main_nutrients.append(
-            {
-            "carbs_name": carbs_name,
-            "carbs_amount": carbs_amount,
-            "carbs_unit": carbs_unit,
-            }
-        )
-
-pprint.pprint(main_nutrients)
-"""
+#pprint.pprint(ingredient_info(1009016, "drink box"))

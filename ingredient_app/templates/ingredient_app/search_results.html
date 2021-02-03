@@ -23,7 +23,9 @@
                             <div class="p-1"><p class="badge bg-success fs-5">{{ info.product_name }}</p></div>
                             <div class="d-flex align-items-center p-1 justify-content-center"><p class="">{% if info.product_category != False %} ({{ info.product_category }}) {% endif %}</p></div>
                         </div>
-                        <p class="fst-italic fs-3">{{ info.product_amount|apnumber }} {{info.product_unit}} - {{ info.weight_amount|floatformat:0 }} {{ info.weight_unit }}</p>
+                        <!-- Chosen amount and unit, Product weight and unit -->
+                        <!-- The chosen amount and unit doesn't appear if it equals to product weight and unit -->
+                        <p class="fst-italic fs-3">{% if info.product_unit != info.weight_unit %} {{ info.product_amount|apnumber }} {{info.product_unit}} - {% endif %}{{ info.weight_amount|floatformat:0 }} {{ info.weight_unit }}</p>
                         <p class="fs-4 fw-bolder fst-italic">{{ calories_data.calories_amount|floatformat:0 }} {{ calories_data.calories_unit }}</p>
                         {% endfor %}
 

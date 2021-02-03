@@ -4,13 +4,42 @@
 
 <div class="container" style="width: 60%;">
     <h1>Get Information About Ingredients</h1>
+
     <form method="POST">
         {% csrf_token %}
-        <input type="text" name="product_id" placeholder="Type product id..." class="form-control">
-        <input class="btn btn-info" type="submit">
+        {{ form.non_field_errors }}
+        <div class="row">
+            <div class="col-sm-6">
+                <select name="{{ form.product_id.name }}" class="form-select text-muted" aria-label="Default select example" required>
+                    <option selected value="">Choose product...</option> <!-- value="": The Choose product... will not be accepted as value -->
+                    {% for value, key in form.product_id.field.choices %}
+                    <option value="{{ value }}" name="product_id" style="color: black;">{{ key }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-sm-3">
+                <input type="number" class="form-control" name="{{ form.product_amount.name }}" placeholder="Type amount..." required>
+
+
+            </div>
+            <div class="col-sm-3">
+                <select name="{{ form.product_unit.name }}" class="form-select text-muted" aria-label="Default select example" required>
+                    <option selected value="">Choose unit...</option>
+                    {% for value, key in form.product_unit.field.choices %}
+                    <option value="{{ value }}" name="product_id" style="color: black;">{{ key }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2">
+                <input type="submit" value="Submit" class="btn btn-primary my-2">
+            </div>
+        </div>
     </form>
+
     <br>
-    <!-- error message -->
+    <!-- API request error message -->
     {% if messages %}
         {% for message in messages %}
         <div class="row justify-content-center">
@@ -20,6 +49,16 @@
         </div>
         {% endfor %}
     {% endif %}
+    <!-- Form ChoiceField error message -->
+    {% if form.product_amount.errors %}
+        {% for error in form.product_amount.errors %}
+        <div class="row justify-content-center">
+            <div class="alert alert-danger col-md-6 text-center mt-1" role="alert">
+                {{ error }}
+            </div>
+        </div>
+        {% endfor %}
+    {% endif %}    
 </div> <!-- container end -->
 
 {% endblock content %}
