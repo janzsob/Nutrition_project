@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'ingredient_app.apps.IngredientAppConfig', # ingredient_app
     'django.contrib.humanize', # humanize
+    'django_extensions', # It needs to import csv file into models (runscript)
 ]
 
 MIDDLEWARE = [

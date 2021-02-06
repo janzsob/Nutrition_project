@@ -1,3 +1,17 @@
 from django.db import models
 
-# Create your models here.
+class TopIngredients(models.Model):
+    product_name = models.CharField("Product Name", max_length=50)
+    product_id = models.IntegerField("Product ID")
+    
+    
+
+    class Meta:
+        verbose_name = "TopIngredient"
+        verbose_name_plural = "TopIngredients"
+        ordering = ["product_name"]
+
+    def __str__(self):
+        return self.product_name
+
+
