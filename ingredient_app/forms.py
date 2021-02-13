@@ -13,7 +13,9 @@ unit_choices = [
 
 class ProductSearchForm(forms.Form):
     product_id = forms.ChoiceField(choices=choices_list)
+    """
     product_unit = forms.ChoiceField(choices=unit_choices, required= True)
     product_amount = forms.IntegerField(min_value=1, error_messages= {
         "min_value": "This value cannot be lower than 1.",
     })
+    """

@@ -14,4 +14,13 @@ class TopIngredients(models.Model):
     def __str__(self):
         return self.product_name
 
+class Units(models.Model):
+    name = models.CharField(max_length=50)
+
+    class Meta:
+        verbose_name = "Unit"
+        verbose_name_plural = "Units"
+
+    def __str__(self):
+        return self.name
 

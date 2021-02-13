@@ -5,28 +5,21 @@
 <div class="container" style="width: 60%;">
     <h1>Get Information About Ingredients</h1>
 
-    <form method="POST">
+    <form method="GET">
         {% csrf_token %}
         {{ form.non_field_errors }}
         <div class="row">
             <div class="col-sm-6">
-                <select name="{{ form.product_id.name }}" class="form-select text-muted" aria-label="Default select example" required>
-                    <option selected value="">Choose product...</option> <!-- value="": The Choose product... will not be accepted as value -->
-                    {% for value, key in form.product_id.field.choices %}
-                    <option value="{{ value }}" name="product_id" style="color: black;">{{ key }}</option>
-                    {% endfor %}
-                </select>
+                    <input class="form-control" type="search" name="product_name_input" placeholder="Type product name..." required>
             </div>
             <div class="col-sm-3">
-                <input type="number" class="form-control" name="{{ form.product_amount.name }}" placeholder="Type amount..." required>
-
-
+                <input class="form-control"  type="number" min="1" name="product_amount_input" placeholder="Amount" required>
             </div>
             <div class="col-sm-3">
-                <select name="{{ form.product_unit.name }}" class="form-select text-muted" aria-label="Default select example" required>
-                    <option selected value="">Choose unit...</option>
-                    {% for value, key in form.product_unit.field.choices %}
-                    <option value="{{ value }}" name="product_id" style="color: black;">{{ key }}</option>
+                <select class="form-select" name="product_unit_input" aria-label="Default" required>
+                    <option selected>Units...</option>
+                    {% for unit in unit_list %}
+                    <option value="{{ unit }}">{{ unit }}</option>
                     {% endfor %}
                 </select>
             </div>

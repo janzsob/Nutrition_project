@@ -34,7 +34,7 @@ print()
 """
 
 """ Ingredient info """
-def ingredient_info(ingredient_id, product_unit, product_amount):
+def ingredient_info(ingredient_id, product_amount, product_unit):
     url = f"https://api.spoonacular.com/food/ingredients/{ingredient_id}/information"
     endpoint = f"{url}?apiKey={api_key}"
     response = requests.get(endpoint, params={
@@ -46,8 +46,10 @@ def ingredient_info(ingredient_id, product_unit, product_amount):
     
     if response.status_code == 402: # in case of 402 error (when the number of requests reach the daily maximum limit)
         return "402 error"
-    elif product_unit not in possible_units: # check whether the given unit exists in possible units list.
-        return "unit error"
+    
+    #elif product_unit not in possible_units: # check whether the given unit exists in possible units list.
+    #    return "unit error"
+    
     else:
         try: # The ideal way
             nutrition = data["nutrition"]
@@ -209,11 +211,12 @@ def ingredient_info(ingredient_id, product_unit, product_amount):
 
                 }
             )
-            #print(f"Product id: {ingredient_id}")
+            print(f"Product id: {ingredient_id}")
             return keys_list
 
         except(KeyError): # in case of KeyError, when the the given product doesn't exists in the database
             return KeyError
 
 #pprint.pprint(ingredient_info(9037)[0]["calories_name"])
-#pprint.pprint(ingredient_info(1009016, "drink box"))
+#pprint.pprint(ingredient_info(9160, 1, "g"))
+
