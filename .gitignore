@@ -3,3 +3,4 @@ ingredient_app/__pycache__
 ingredient_app/migrations/__pycache__
 nutrition_project/secret.py
 scripts/__pycache__
+db.sqlite3

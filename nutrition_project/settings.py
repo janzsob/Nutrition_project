@@ -78,16 +78,11 @@ WSGI_APPLICATION = 'nutrition_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-pg_password = os.environ.get("postgresgl_password")
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'Nutrition_DB',
-        'USER': 'postgres',
-        'PASSWORD': pg_password,
-        'HOST': 'localhost',
-        "PORT": "5432",
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
