@@ -4,12 +4,10 @@
 {% load humanize %}
 
 
-<div class="container-fluid p-0 position-relative"> <!-- It needs for the postiton of back button-->
-    <!--Back Button-->
-    <a href="{% url 'ingredient_app:search_page' %}" id="back_button" class="btn btn-dark text-info border-info position-absolute top-0 start-0 ms-2 ms-sm-4">Back</a>
-    
-    <div class="container mt-2" style="width: 65%;" id="main_container">
-        <div class="card">
+
+<div class="container p-2" id="main_container">
+    <div class="row justify-content-center m-2">
+        <div class="card" style="width: 38rem;">
             <div class="row g-0">
                 <div class="col-md-4 text-center"> <!-- image column -->
                     {% for img in main_info %} <!-- load image -->
@@ -20,15 +18,19 @@
                     <div class="card-body text-center">
                         {% for info in main_info %}
                         <div class="d-sm-flex flex-row justify-content-center">
-                            <div class="p-1"><p class="badge bg-success fs-5">{{ info.product_name }}</p></div>
+                            <div class="p-1"><p class="badge fs-5" style="background-color: rgb(42, 165, 97);">{{ info.product_name }}</p></div>
                             <div class="d-flex align-items-center p-1 justify-content-center"><p class="">{% if info.product_category != False %} ({{ info.product_category }}) {% endif %}</p></div>
                         </div>
                         <!-- Chosen amount and unit, Product weight and unit -->
                         <!-- The chosen amount and unit doesn't appear if it equals to product weight and unit -->
-                        <p class="fst-italic fs-3">{% if info.product_unit != info.weight_unit %} {{ info.product_amount|apnumber }} {{info.product_unit}} - {% endif %}{{ info.weight_amount|floatformat:0 }} {{ info.weight_unit }}</p>
+                        <p class="fst-italic fs-3">
+                            {% if product_unit_display != info.weight_unit %} 
+                            {{ info.product_amount|apnumber }} {{product_unit_display}} - 
+                            {% endif %}
+                            {{ info.weight_amount|floatformat:0 }} {{ info.weight_unit }}</p>
                         <p class="fs-4 fw-bolder fst-italic">{{ calories_data.calories_amount|floatformat:0 }} {{ calories_data.calories_unit }}</p>
                         {% endfor %}
-
+    
                         <!-- Carbs, Fat, Protein table -->
                         {% for info in main_info %}
                         <table class="table table-bordered fs-6">
@@ -64,20 +66,28 @@
                             {% endfor %}
                         </div>
                     </div> <!-- card-body end -->
-                    <p><!-- Collapse Button -->
-                        <a class="btn btn-primary float-end m-2" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-                            View All Nutrients
-                        </a>
-                    </p>
+    
                 </div> <!-- main stats column end -->
+                <div class="row justify-content-between p-0 m-0">
+                    <div class="col-2 p-1">
+                        <a href="{% url 'ingredient_app:search_page' %}"><button class="btn btn-warning">Back</button></a>
+                    </div>
+                    <div class="col-6 p-1">
+                        <!--Collapse button-->
+                        <a class="btn btn-primary float-end" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                        View Nutrients 
+                        </a>
+                    </div>
+    
+                </div>
             </div> <!-- card row end -->
         </div> <!-- card end -->
     
         <!-- nutrients table -->
-        <div class="collapse" id="collapseExample">
-            <div class="card card-body">
+        <div class="collapse p-0" id="collapseExample" style="width: 38rem;">
+            <div class="card card-body mb-2">
                 <div class="table-responsive">
-                    <table class="table table-hover bg-white mb-0">
+                    <table class="table table-hover bg-white">
                         <thead>
                             <tr>
                                 <th scope="col">Nutrient Name</th>
@@ -99,8 +109,8 @@
             </div> <!-- card-body end -->
         </div> <!-- collapse end -->
     
-    </div> <!-- main container end -->
+    </div>
+</div> <!-- main container end -->
     
-</div> <!-- container end -->
 
 {% endblock content %}

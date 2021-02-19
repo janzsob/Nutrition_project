@@ -1,34 +1,57 @@
 {% extends "ingredient_app/base.html" %}
 {% block title %}Search for Ingredients{% endblock %}
 {% block content %}
+{% load static %}
 
-<div class="container" style="width: 60%;">
-    <h1>Get Information About Ingredients</h1>
-
-    <form method="GET">
+<div class="container p-2">
+    <div class="row justify-content-center mt-2">
+        <div class="col-12">
+            <h1 class="text-center" id="main-title">Check Nutrition Facts</h1>
+        </div>
+        <div class="col-6">
+            <p class="text-center my-2 fst-italic" id="sub-title">Search for simple whole foods (e.g. fruits, vegetables, nuts, grains, meat, fish, dairy etc.).</p>
+        </div>
+    </div>
+    <form method="GET" class="row justify-content-center m-2">
+        <div class="text-center mb-2">
+            <img class="m-2" src="/static/ingredient_app/icons/lemon.svg" alt="lemon" height="50" width="50">
+            <img class="m-2" src="/static/ingredient_app/icons/beef.svg" alt="beef" height="60" width="60">
+            <img class="m-2" src="/static/ingredient_app/icons/cheese.svg" alt="cheese" height="57" width="57">
+            <img class="m-2" src="/static/ingredient_app/icons/carrot.svg" alt="carrot" height="60" width="60">
+        </div>
         {% csrf_token %}
         {{ form.non_field_errors }}
-        <div class="row">
-            <div class="col-sm-6">
-                    <input class="form-control" type="search" name="product_name_input" placeholder="Type product name..." required>
-            </div>
-            <div class="col-sm-3">
-                <input class="form-control"  type="number" min="1" name="product_amount_input" placeholder="Amount" required>
-            </div>
-            <div class="col-sm-3">
-                <select class="form-select" name="product_unit_input" aria-label="Default" required>
-                    <option selected>Units...</option>
-                    {% for unit in unit_list %}
-                    <option value="{{ unit }}">{{ unit }}</option>
-                    {% endfor %}
-                </select>
+
+        <div class="card m-2" style="width: 38rem;">
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-12">
+                        <input type="search" name="product_name_input" list="product_list" placeholder="Search food..." class="form-control" required>
+                        <datalist id="product_list">
+                            {% for auto in products_autocomplete %}
+                                <option value="{{ auto.product_name }}"></option>
+                            {% endfor %}
+                        </datalist>
+                    </div>
+
+                    <div class="col-md-6">
+                        <input class="form-control"  type="number" min="1" name="product_amount_input" placeholder="Amount" required>
+                    </div>
+                    <div class="col-md-6">
+                        <select class="form-select text-muted" name="product_unit_input" aria-label="Default" required>
+                            <option selected disabled value="">Units...</option>
+                            {% for unit in unit_list %}
+                            <option id="unit_options" value="{{ unit.name }}" style="color: black;">{{ unit.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-sm-2">
+                        <input type="submit" value="Submit" class="btn btn-primary">
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-sm-2">
-                <input type="submit" value="Submit" class="btn btn-primary my-2">
-            </div>
-        </div>
+
     </form>
 
     <br>

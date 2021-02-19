@@ -10,12 +10,14 @@ class TopIngredients(models.Model):
         verbose_name = "TopIngredient"
         verbose_name_plural = "TopIngredients"
         ordering = ["product_name"]
+        db_table = "ingredient_app_topingredients"
 
     def __str__(self):
         return self.product_name
 
 class Units(models.Model):
     name = models.CharField(max_length=50)
+    plural_name =models.CharField(max_length=50)
 
     class Meta:
         verbose_name = "Unit"

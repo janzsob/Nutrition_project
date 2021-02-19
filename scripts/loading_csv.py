@@ -3,6 +3,8 @@ from ingredient_app.models import TopIngredients
 
 csv_path = "C:/Users/bence/Python/APIs/Spoonacular_API/spoon_env/nutrition_project/ingredient_app/static/ingredient_app/top-1k-ingredients.csv"
 
+""" Import CSV data in TopIngredients model """
+
 def run(): # the function must be called run.
     TopIngredients.objects.all().delete()
 
