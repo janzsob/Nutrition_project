@@ -8,16 +8,16 @@
         <div class="col-12">
             <h1 class="text-center" id="main-title">Check Nutrition Facts</h1>
         </div>
-        <div class="col-6">
+        <div class="col-10 col-md-6">
             <p class="text-center my-2 fst-italic" id="sub-title">Search for simple whole foods (e.g. fruits, vegetables, nuts, grains, meat, fish, dairy etc.).</p>
         </div>
     </div>
     <form method="GET" class="row justify-content-center m-2">
         <div class="text-center mb-2">
-            <img class="m-2" src="/static/ingredient_app/icons/lemon.svg" alt="lemon" height="50" width="50">
-            <img class="m-2" src="/static/ingredient_app/icons/beef.svg" alt="beef" height="60" width="60">
-            <img class="m-2" src="/static/ingredient_app/icons/cheese.svg" alt="cheese" height="57" width="57">
-            <img class="m-2" src="/static/ingredient_app/icons/carrot.svg" alt="carrot" height="60" width="60">
+            <img class="m-1" src="/static/ingredient_app/icons/lemon.svg" alt="lemon" height="45" width="45">
+            <img class="m-2" src="/static/ingredient_app/icons/beef.svg" alt="beef" height="55" width="55">
+            <img class="m-1" src="/static/ingredient_app/icons/cheese.svg" alt="cheese" height="55" width="55">
+            <img class="m-1" src="/static/ingredient_app/icons/carrot.svg" alt="carrot" height="55" width="55">
         </div>
         {% csrf_token %}
         {{ form.non_field_errors }}

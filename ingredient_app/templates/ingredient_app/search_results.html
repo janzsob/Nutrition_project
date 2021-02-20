@@ -5,8 +5,8 @@
 
 
 
-<div class="container p-2" id="main_container">
-    <div class="row justify-content-center m-2">
+<div class="container py-1 px-2" id="main_container">
+    <div class="row justify-content-center my-1 mx-2">
         <div class="card" style="width: 38rem;">
             <div class="row g-0">
                 <div class="col-md-4 text-center"> <!-- image column -->
@@ -15,25 +15,25 @@
                     {% endfor %}
                 </div>
                 <div class="col-md-8"> <!-- main stats column -->
-                    <div class="card-body text-center">
+                    <div class="card-body text-center p-1">
                         {% for info in main_info %}
                         <div class="d-sm-flex flex-row justify-content-center">
-                            <div class="p-1"><p class="badge fs-5" style="background-color: rgb(42, 165, 97);">{{ info.product_name }}</p></div>
-                            <div class="d-flex align-items-center p-1 justify-content-center"><p class="">{% if info.product_category != False %} ({{ info.product_category }}) {% endif %}</p></div>
+                            <div class="p-1"><p class="badge fs-5 mb-1" style="background-color: rgb(42, 165, 97);">{{ info.product_name }}</p></div>
+                           <!--<div class="d-flex align-items-center p-1 justify-content-center"><p class="">{% if info.product_category != False %} ({{ info.product_category }}) {% endif %}</p></div>-->
                         </div>
                         <!-- Chosen amount and unit, Product weight and unit -->
                         <!-- The chosen amount and unit doesn't appear if it equals to product weight and unit -->
-                        <p class="fst-italic fs-3">
+                        <p class="fst-italic fs-3 mb-1">
                             {% if product_unit_display != info.weight_unit %} 
                             {{ info.product_amount|apnumber }} {{product_unit_display}} - 
                             {% endif %}
                             {{ info.weight_amount|floatformat:0 }} {{ info.weight_unit }}</p>
-                        <p class="fs-4 fw-bolder fst-italic">{{ calories_data.calories_amount|floatformat:0 }} {{ calories_data.calories_unit }}</p>
+                        <p class="fs-4 fw-bolder fst-italic mb-2">{{ calories_data.calories_amount|floatformat:0 }} {{ calories_data.calories_unit }}</p>
                         {% endfor %}
     
                         <!-- Carbs, Fat, Protein table -->
                         {% for info in main_info %}
-                        <table class="table table-bordered fs-6">
+                        <table class="table table-bordered fs-6 mb-2">
                             <thead class="table-info" id="tb_head">
                                 <tr>
                                     <th scope="col">Carbs</th>
@@ -58,10 +58,10 @@
                         {% endfor %}
     
                         <!-- glycemic index -->
-                        <div class="row gx-2 m-2">
+                        <div class="row m-2 px-2 justify-content-between">
                             {% for glycemic in glycemic_list %}
-                            <div class="col-sm">
-                                <div class="p-0 mx-3 my-2 my-md-0 border bg-light"><small>{{ glycemic.glycemic_name }}: {{ glycemic.glycemic_amount|floatformat:0 }}</small></div>
+                            <div class="col-sm-6">
+                                <div class="p-0 mx-2 my-1 border bg-light"><small>{{ glycemic.glycemic_name }}: {{ glycemic.glycemic_amount|floatformat:0 }}</small></div>
                             </div>
                             {% endfor %}
                         </div>
@@ -72,7 +72,7 @@
                     <div class="col-2 p-1">
                         <a href="{% url 'ingredient_app:search_page' %}"><button class="btn btn-warning">Back</button></a>
                     </div>
-                    <div class="col-6 p-1">
+                    <div class="col-8 p-1">
                         <!--Collapse button-->
                         <a class="btn btn-primary float-end" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
                         View Nutrients 
