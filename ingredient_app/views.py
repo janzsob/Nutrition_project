@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .api_call import ingredient_info
 from django.contrib import messages
 from .models import TopIngredients, Units
+from django.http import JsonResponse
 
 
 def get_product(request):
@@ -12,11 +13,16 @@ def get_product(request):
     unit_list = Units.objects.all() 
 
     if product_name_input == "" or product_name_input is None: # render the search page
-        products_autocomplete = TopIngredients.objects.all() # autocomplete during product serach 
-        
+        # to autocomplete the product name during typing
+        if "term" in request.GET:
+            qs = TopIngredients.objects.filter(product_name__istartswith=request.GET.get("term"))
+            names = list()
+            for item in qs:
+                names.append(item.product_name)
+            return JsonResponse(names, safe=False)
+                
         context = {
             "unit_list": unit_list, # for select options in form
-            "products_autocomplete": products_autocomplete,            
             }              
         return render(request, "ingredient_app/search_page.html", context)
     

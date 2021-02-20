@@ -26,14 +26,8 @@
             <div class="card-body">
                 <div class="row g-3">
                     <div class="col-md-12">
-                        <input type="search" name="product_name_input" list="product_list" placeholder="Search food..." class="form-control" required>
-                        <datalist id="product_list">
-                            {% for auto in products_autocomplete %}
-                                <option value="{{ auto.product_name }}"></option>
-                            {% endfor %}
-                        </datalist>
+                        <input type="search" name="product_name_input" id="product" placeholder="Search food..." class="form-control" required>
                     </div>
-
                     <div class="col-md-6">
                         <input class="form-control"  type="number" min="1" name="product_amount_input" placeholder="Amount" required>
                     </div>
@@ -77,4 +71,15 @@
     {% endif %}    
 </div> <!-- container end -->
 
+<!-- jQuery scripts -->
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+    $( function() {
+      $( "#product" ).autocomplete({ // product: name of input id
+        source: "{% url 'ingredient_app:search_page' %}",
+        minLength: 1
+    });
+    } );
+</script>
 {% endblock content %}
